@@ -1,21 +1,59 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>メモアプリ</title>
-    {{ css|safe }}
-</head>
-<body>
-    <textarea id="memo-text">{{ text }}</textarea>
+  <!DOCTYPE html>
+  <html>
+  <head>
+      <title>メモアプリ</title>
+      {{ css|safe }}
+      <style>
+          /* 中央配置用のスタイル */
+          body {
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              height: 100vh;
+              margin: 0;
+          }
+          /* テキストエリアのスタイル */
+          textarea {
+              width: 80%; /* ページの幅の80%を占める */
+              height: 300px; /* 適切な高さを設定 */
+              margin-right: 10px;
+          }
+          /* クリアボタンのスタイル */
+          #clear-button {
+              background-color: #ff0000; /* ボタンの背景色 */
+              color: #fff; /* ボタンの文字色 */
+              border: none; /* ボーダーを無効化 */
+              border-radius: 50%; /* ボタンを丸く表示 */
+              width: 30px;
+              height: 30px;
+              cursor: pointer;
+          }
+      </style>
+  </head>
+  <body>
+      <div style="display: flex; align-items: flex-start;">
+          <textarea id="memo-text">{{ text }}</textarea>
+          <button id="clear-button" onclick="clearText()">✖</button>
+      </div>
 
     <script>
         const textarea = document.getElementById('memo-text');
+        const clearButton = document.getElementById('clear-button');
+
         textarea.addEventListener('input', function() {
             // テキストが変更されたら自動で保存
             saveText();
         });
 
-        // ページが開かれたら自動でフォーカス
-        textarea.focus();
+        clearButton.addEventListener('click', function() {
+            // クリアボタンがクリックされたらテキストをクリア
+            clearText();
+        });
+
+        // ページが開かれたとき、次の行にカーソルを移動
+        window.addEventListener('load', function() {
+            focusNextLine();
+        });
 
         function saveText() {
             const text = textarea.value;
@@ -27,6 +65,31 @@
                 },
             });
         }
+
+        function clearText() {
+            // テキストエリアの内容をクリア
+            textarea.value = '';
+            // クリアボタンがクリックされたら自動で保存
+            saveText();
+        }
+
+        function focusNextLine() {
+            // テキストエリア内のテキストを取得
+            const text = textarea.value;
+            // 改行文字でテキストを分割
+            const lines = text.split('\n');
+            // 現在のカーソル位置を取得
+            const cursorPosition = textarea.selectionStart;
+
+            // カーソル位置より後の行にテキストがあれば、その行にカーソルを移動
+            for (let i = 0; i < lines.length; i++) {
+                if (cursorPosition <= lines[i].length) {
+                    textarea.setSelectionRange(cursorPosition + lines[i].length + 1, cursorPosition + lines[i].length + 1);
+                    break;
+                }
+            }
+        }
     </script>
-</body>
-</html>
+
+  </body>
+  </html>
