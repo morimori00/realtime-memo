@@ -1,36 +1,32 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Memo App</title>
-
-  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
-
+    <title>メモアプリ</title>
+    {{ css|safe }}
 </head>
-
 <body>
+    <textarea id="memo-text">{{ text }}</textarea>
 
-  <div class="memo">
+    <script>
+        const textarea = document.getElementById('memo-text');
+        textarea.addEventListener('input', function() {
+            // テキストが変更されたら自動で保存
+            saveText();
+        });
 
-    <h1 class="title">My Memos</h1>
+        // ページが開かれたら自動でフォーカス
+        textarea.focus();
 
-    <textarea class="memo-text"></textarea>
-
-  </div>
-  <script>
-    const textarea = document.querySelector('textarea');
-
-    textarea.addEventListener('input', () => {
-      const text = textarea.value;
-
-      fetch('/update_text', {
-        method: 'POST', 
-        body: JSON.stringify({text: text})
-      })
-      .then(response => response.json())
-      .then(data => {
-        console.log(data);
-      });
-    });
-  </script>
+        function saveText() {
+            const text = textarea.value;
+            fetch('/update', {
+                method: 'POST',
+                body: new URLSearchParams({ text: text }),
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+            });
+        }
+    </script>
 </body>
 </html>
