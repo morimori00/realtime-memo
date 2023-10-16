@@ -4,18 +4,8 @@
       <title>メモアプリ</title>
       {{ css|safe }}
       <style>
-          /* 中央配置用のスタイル */
-          body {
-              display: flex;
-              justify-content: center;
-              align-items: center;
-              height: 100vh;
-              margin: 0;
-          }
           /* テキストエリアのスタイル */
           textarea {
-              width: 80%; /* ページの幅の80%を占める */
-              height: 300px; /* 適切な高さを設定 */
               margin-right: 10px;
           }
           /* クリアボタンのスタイル */
@@ -88,6 +78,8 @@
                     break;
                 }
             }
+
+            textarea.focus();
         }
     </script>
 
