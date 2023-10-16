@@ -25,7 +25,7 @@ dark_theme_css = """
     textarea {
         background-color: #444;
         color: #fff;
-        width: 80%; /* ページの幅の80%を占める */
+        width: 60vw; /* ページの幅の80%を占める */
         height: 300px; /* 適切な高さを設定 */
         font-size:1.1rem;
         padding:30px;
