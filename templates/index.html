@@ -5,6 +5,17 @@
 
   <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 
+</head>
+
+<body>
+
+  <div class="memo">
+
+    <h1 class="title">My Memos</h1>
+
+    <textarea class="memo-text"></textarea>
+
+  </div>
   <script>
     const textarea = document.querySelector('textarea');
 
@@ -21,18 +32,5 @@
       });
     });
   </script>
-
-</head>
-
-<body>
-
-  <div class="memo">
-
-    <h1 class="title">My Memos</h1>
-
-    <textarea class="memo-text"></textarea>
-
-  </div>
-
 </body>
 </html>
